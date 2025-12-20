@@ -314,7 +314,7 @@ void DELAYED_COPY_CODE(render_loop)()
                     }
                     break;
                 case SOFTSW_HIRES_MODE: //4
-                    if(current_softsw & SOFTSW_DGR)
+                    if((current_softsw & (SOFTSW_80COL | SOFTSW_DGR)) == (SOFTSW_80COL | SOFTSW_DGR))
                     {
                         render_dhgr();
                     }
