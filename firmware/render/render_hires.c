@@ -90,9 +90,10 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line)
         //                         current
         //                          pixel
         uint oddness = 0;
+        uint shift = (IS_SOFTSWITCH(SOFTSW_DGR)) ? 2 : 0; // 2 bits = 90 degree phase shift
 
         // Load in the first 14 dots
-        uint32_t dots = (uint32_t)hires_dot_patterns[line_mem[0]] << 15;
+        uint32_t dots = (uint32_t)hires_dot_patterns[line_mem[0]] << (15 + shift);
 
         for(uint i=1; i < 41; i++)
         {
@@ -100,9 +101,9 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line)
             uint b = (i < 40) ? line_mem[i] : 0;
             if(b & 0x80) {
                 // Extend the last bit from the previous byte
-                dots |= (dots & (1u << 15)) >> 1;
+                dots |= (dots & (1u << (15 + shift))) >> 1;
             }
-            dots |= (uint32_t)hires_dot_patterns[b] << 1;
+            dots |= (uint32_t)hires_dot_patterns[b] << (1 + shift);
 
             // Consume 14 dots
             for(uint j=0; j < 7; j++)
