@@ -90,7 +90,7 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line)
         //                         current
         //                          pixel
         uint oddness = 0;
-        uint shift = (IS_SOFTSWITCH(SOFTSW_DGR)) ? 2 : 0; // 2 bits = 90 degree phase shift
+        uint shift = (IS_SOFTSWITCH(SOFTSW_DGR)) ? 1 : 0; // 1 bit = 90 degree phase shift
 
         // Load in the first 14 dots
         uint32_t dots = (uint32_t)hires_dot_patterns[line_mem[0]] << (15 + shift);
