@@ -65,6 +65,15 @@ static inline void __time_critical_func(machine_auto_detection)(uint32_t address
             {
                 detected_machine = MACHINE_II;  // "*(CURSOR)" = Apple II without Autostart
                 set_machine(MACHINE_II);
+            } 
+        }
+        else
+        if (Char1 == 0xF4) // 't'
+        {
+            if (Char2 == 0xA0 && apple_memory[0x0410] == 0xC4) // "Delta "
+            {
+                detected_machine = MACHINE_IIE; // Apple IIe unenhanced, the Delta clones this
+                set_machine(MACHINE_IIE);
             }
         }
         else
