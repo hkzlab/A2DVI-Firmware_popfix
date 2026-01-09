@@ -97,8 +97,21 @@ void DELAYED_COPY_CODE(show_display_mode)()
         }
     }
 
+    // Show if Video 7 is enabled or not
+    if (IS_IFLAG(IFLAGS_VIDEO7))
+    {
+        copy_str(&line2[0], "V7");
+    }
+
     // show the subtitle for 120 screen cycles (2 seconds)
     show_subtitle_cycles = 120;
+}
+
+void DELAYED_COPY_CODE(toggle_v7)()
+{
+    SET_IFLAG(!IS_IFLAG(IFLAGS_VIDEO7), IFLAGS_VIDEO7);
+
+    show_display_mode();
 }
 
 void DELAYED_COPY_CODE(cycle_display_modes)()
@@ -152,6 +165,23 @@ bool DELAYED_COPY_CODE(quick_button_toggle())
     return quick;
 }
 
+// check if the button was toggled slowly (to trigger extra functions)
+bool DELAYED_COPY_CODE(slow_button_toggle())
+{
+    static uint32_t last_ms = 0;
+
+    // get current time
+    uint32_t current_ms = to_ms_since_boot(get_absolute_time());
+
+    // was button state toggled slowly?
+    bool slow = ((last_ms!=0)&&(current_ms - last_ms > 3000));
+
+    // remember current time
+    last_ms = current_ms;
+
+    return slow;
+}
+
 const uint debounce_threshold = 7; // in 1/60th of a second
 
 // check button state and trigger configured actions
@@ -199,10 +229,18 @@ static void update_toggle_switch()
             // More complex behavior for US-charset machines:
             // Switch cycles through various display modes.
             // (Using a push-button is a good choice for this mode).
-            if ((input_switch_state)&&
+            if ((!input_switch_state)&&
                 (input_switch_state != debounce_last))
             {
-                cycle_display_modes();
+                if(slow_button_toggle()) 
+                {
+                    toggle_v7();
+                }
+                else
+                if (quick_button_toggle())
+                {
+                    cycle_display_modes();
+                }
             }
             break;
 
