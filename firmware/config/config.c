@@ -309,7 +309,7 @@ void config_setflags(void)
 {
     SET_IFLAG(((cfg_rendering_fx==FX_ENABLED)||(cfg_rendering_fx == FX_DGR_ONLY)), IFLAGS_INTERP_DGR);
     SET_IFLAG(((cfg_rendering_fx==FX_ENABLED)||(cfg_rendering_fx == FX_DHGR_ONLY)),IFLAGS_INTERP_DHGR);
-    SET_IFLAG((cfg_rendering_fx==FX_ENABLED),IFLAGS_INTERP_HIRES);
+    SET_IFLAG(((cfg_rendering_fx==FX_ENABLED)||(cfg_rendering_fx == FX_HIRES_ONLY)),IFLAGS_INTERP_HIRES);
 
     videx_enabled = (cfg_videx_selection > 0);
 }

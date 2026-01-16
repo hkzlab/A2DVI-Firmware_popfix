@@ -48,7 +48,8 @@ typedef enum {
     FX_NONE       = 0,
     FX_ENABLED    = 1,
     FX_DHGR_ONLY  = 2,
-    FX_DGR_ONLY   = 3
+    FX_DGR_ONLY   = 3,
+    FX_HIRES_ONLY = 4
 } rendering_fx_t;
 
 typedef enum

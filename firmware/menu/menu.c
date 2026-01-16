@@ -218,6 +218,7 @@ char DELAYED_COPY_DATA(MenuRendering)[] =
     "ENABLED\0"
     "DOUBLE HIRES ONLY\0"
     "DOUBLE LORES ONLY\0"
+    "HIRES ONLY\0"
     "\0";
 
 
@@ -763,7 +764,7 @@ bool DELAYED_COPY_CODE(menuDoSelectionPage0)(bool increase)
         case 8: // RENDERING
             if (increase)
             {
-                if (cfg_rendering_fx < FX_DGR_ONLY)
+                if (cfg_rendering_fx < FX_HIRES_ONLY)
                     cfg_rendering_fx++;
             }
             else
