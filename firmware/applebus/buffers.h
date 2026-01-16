@@ -137,6 +137,7 @@ extern volatile uint32_t internal_flags;
 #define IFLAGS_PAL            0x08000000ul
 #define IFLAGS_RAMWORKS       0x10000000ul
 #define IFLAGS_TEST           0x20000000ul
+#define IFLAGS_INTERP_HIRES   0x40000000ul
 
 // size of a single character set
 #define CHARACTER_ROM_SIZE    2048

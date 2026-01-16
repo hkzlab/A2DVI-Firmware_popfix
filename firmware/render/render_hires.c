@@ -92,6 +92,22 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line)
         uint oddness = 0;
         uint shift = (IS_SOFTSWITCH(SOFTSW_DGR)) ? 1 : 0; // 1 bit = 90 degree phase shift
 
+        uint32_t *tmds_red_patterns, *tmds_green_patterns, *tmds_blue_patterns;
+        
+        // Check if we need to use the "artifact" palette or not
+        if(IS_IFLAG(IFLAGS_INTERP_HIRES))
+        {
+            tmds_red_patterns = tmds_hires_ntsc_color_patterns_red;
+            tmds_green_patterns = tmds_hires_ntsc_color_patterns_green;
+            tmds_blue_patterns = tmds_hires_ntsc_color_patterns_blue;
+        }
+        else
+        {
+            tmds_red_patterns = tmds_hires_color_patterns_red;
+            tmds_green_patterns = tmds_hires_color_patterns_green;
+            tmds_blue_patterns = tmds_hires_color_patterns_blue;
+        }
+
         // Load in the first 14 dots
         uint32_t dots = (uint32_t)hires_dot_patterns[line_mem[0]] << (15 + shift);
 
@@ -109,9 +125,9 @@ static void DELAYED_COPY_CODE(render_hires_line)(bool p2, uint line)
             for(uint j=0; j < 7; j++)
             {
                 uint dot_pattern = oddness | ((dots >> 24) & 0xff);
-                *(tmdsbuf_red++)   = tmds_hires_color_patterns_red[dot_pattern];
-                *(tmdsbuf_green++) = tmds_hires_color_patterns_green[dot_pattern];
-                *(tmdsbuf_blue++)  = tmds_hires_color_patterns_blue[dot_pattern];
+                *(tmdsbuf_red++)   = tmds_red_patterns[dot_pattern];
+                *(tmdsbuf_green++) = tmds_green_patterns[dot_pattern];
+                *(tmdsbuf_blue++)  = tmds_blue_patterns[dot_pattern];
                 dots <<= 2;
                 oddness ^= 0x100;
             }
